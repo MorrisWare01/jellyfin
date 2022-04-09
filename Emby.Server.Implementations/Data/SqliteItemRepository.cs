@@ -2627,8 +2627,12 @@ namespace Emby.Server.Implementations.Data
                     .AppendJoin(" AND ", whereClauses);
             }
 
-            commandTextBuilder.Append(GetGroupBy(query))
-                .Append(GetOrderByText(query));
+            commandTextBuilder.Append(GetGroupBy(query));
+            if (query.IsResumable.HasValue)
+            {
+                commandTextBuilder.Append(" And SeriesName ");
+            }
+            commandTextBuilder.Append(GetOrderByText(query));
 
             if (query.Limit.HasValue || query.StartIndex.HasValue)
             {
@@ -3770,7 +3774,7 @@ namespace Emby.Server.Implementations.Data
             {
                 if (query.IsResumable.Value)
                 {
-                    whereClauses.Add("playbackPositionTicks > 0");
+                    // whereClauses.Add("playbackPositionTicks > 0");
                 }
                 else
                 {

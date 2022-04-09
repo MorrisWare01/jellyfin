@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Jellyfin.Api.Constants;
@@ -821,6 +822,7 @@ namespace Jellyfin.Api.Controllers
             {
                 OrderBy = new[] { (ItemSortBy.DatePlayed, SortOrder.Descending) },
                 IsResumable = true,
+                GroupBySeriesPresentationUniqueKey = true,
                 StartIndex = startIndex,
                 Limit = limit,
                 ParentId = parentIdGuid,
@@ -839,6 +841,12 @@ namespace Jellyfin.Api.Controllers
 
             var returnItems = _dtoService.GetBaseItemDtos(itemsResult.Items, dtoOptions, user);
 
+            /*ArrayList result = new ArrayList();
+            if (returnItems != null && returnItems.Count > 0)
+            {
+
+            }
+*/
             return new QueryResult<BaseItemDto>(
                 startIndex,
                 itemsResult.TotalRecordCount,
